@@ -1,4 +1,5 @@
 package application;
+
 import javax.swing.JOptionPane;
 
 public class Program {
@@ -31,23 +32,17 @@ public class Program {
 
 		while (sistemaAtivo) {
 			do {
-				do {
-					opcao = JOptionPane.showInputDialog("Bem vindo, usuário. Selecione uma das opções abaixo:\n"
-							+ "1 - Mostrar cardápio atual.\n" + "2 - Alterar o preço das porções.\n"
-							+ "3 - Alterar a composição de um prato.\n" + "4 - Carregar cardápio padrão.\n"
-							+ "5 - Fazer pedido.\n" + "6 - Encerrar o sistema.");
-					if (!valideMenu(opcao)) {
-						JOptionPane.showMessageDialog(null,
-								"A opção informada não é válida. Tente novamente de acordo com as opções apresentadas.");
-					}
-				} while (!valideMenu(opcao) || opcao == null);
-				opcao1Int = Character.getNumericValue(opcao.charAt(0));
-				if (opcao1Int < 1 || opcao1Int > 6) {
-					JOptionPane.showMessageDialog(null, "Opção inválida. Informe um número entre 1 e 6.");
+				opcao = JOptionPane.showInputDialog("Bem vindo, usuário. Selecione uma das opções abaixo:\n"
+						+ "1 - Mostrar cardápio atual.\n" + "2 - Alterar o preço das porções.\n"
+						+ "3 - Alterar a composição de um prato.\n" + "4 - Carregar cardápio padrão.\n"
+						+ "5 - Fazer pedido.\n" + "6 - Encerrar o sistema.");
+				if (!opcao.matches("^[1-6]{1}$")) {
+					JOptionPane.showMessageDialog(null,
+							"Opção inválida. Tente novamente informando uma opção entre 1 e 6.");
 				}
-			} while (opcao1Int < 1 || opcao1Int > 6);
+			} while (!opcao.matches("^[1-6]{1}$"));
 
-			switch (opcao1Int) {
+			switch (Integer.parseInt(opcao)) {
 
 			// Mostrar cardápio atual.
 			case 1:
@@ -57,61 +52,48 @@ public class Program {
 			// Alterar o preço das porções.
 			case 2:
 				do {
-					do {
-						opcao = JOptionPane
-								.showInputDialog("Selecione a porção a ser alterada:\n" + Program.mostreMatrizC(c));
-						if (!valideMenu(opcao)) {
-							JOptionPane.showMessageDialog(null,
-									"A opção informada não é válida. Tente novamente de acordo com as opções apresentadas.");
-						}
-					} while (!valideMenu(opcao));
-					opcao1Int = Character.getNumericValue(opcao.charAt(0));
-					if (opcao1Int < 1 || opcao1Int > 3) {
-						JOptionPane.showMessageDialog(null, "Opção inválida. Informe um número entre 1 e 3.");
-					} else {
-						Program.alterePorcao(opcao1Int, c);
-						produto = multipliqueMatrizes(p, c);
-						JOptionPane.showMessageDialog(null, "Porções atualizadas com sucesso!\n"+Program.mostreMatrizC(c));
+					opcao = JOptionPane
+							.showInputDialog("Selecione a porção a ser alterada:\n" + Program.mostreMatrizC(c));
+					if (!opcao.matches("^[1-3]{1}$")) {
+						JOptionPane.showMessageDialog(null,
+								"Opção inválida. Tente novamente informando uma opção entre 1 e 3.");
 					}
-				} while (opcao1Int < 1 || opcao1Int > 3);
+				} while (!opcao.matches("^[1-3]{1}$"));
+
+				Program.alterePorcao(Integer.parseInt(opcao), c);
+				produto = multipliqueMatrizes(p, c);
+				JOptionPane.showMessageDialog(null, "Porções atualizadas com sucesso!\n" + Program.mostreMatrizC(c));
+
 				break;
 
 			// Alterar a composição de um prato.
 			case 3:
 				do {
-					do {
-						opcao = JOptionPane.showInputDialog(
-								"Escolha o prato a ser alterado:\n" + Program.mostreMatrizP(p, c, produto));
-						if (!valideMenu(opcao)) {
-							JOptionPane.showMessageDialog(null,
-									"A opção informada não é válida. Tente novamente de acordo com as opções apresentadas.");
-						}
-					} while (!valideMenu(opcao));
-					opcao1Int = Character.getNumericValue(opcao.charAt(0));
-					if (opcao1Int < 1 || opcao1Int > 3) {
-						JOptionPane.showMessageDialog(null, "Opção inválida. Informe um número entre 1 e 3.");
+					opcao = JOptionPane.showInputDialog(
+							"Escolha o prato a ser alterado:\n" + Program.mostreMatrizP(p, c, produto));
+					if (!opcao.matches("^[1-3]{1}$")) {
+						JOptionPane.showMessageDialog(null,
+								"Opção inválida. Tente novamente informando uma opção entre 1 e 3.");
 					}
-				} while (opcao1Int < 1 || opcao1Int > 3);
+				} while (!opcao.matches("^[1-3]{1}$"));
+
+				opcao1Int = Integer.parseInt(opcao);
 
 				do {
-					do {
-						opcao = JOptionPane.showInputDialog(
-								"Escolha a porção a ser alterada:\n" + Program.mostrePorcoesPrato(opcao1Int, p, c));
-						if (!valideMenu(opcao)) {
-							JOptionPane.showMessageDialog(null,
-									"A opção informada não é válida. Tente novamente de acordo com as opções apresentadas.");
-						}
-					} while (!valideMenu(opcao));
-
-					opcao2Int = Character.getNumericValue(opcao.charAt(0));
-					if (opcao2Int < 1 || opcao2Int > 3) {
-						JOptionPane.showMessageDialog(null, "Opção inválida. Informe um número entre 1 e 3.");
-					} else {
-						Program.alterePrato(opcao1Int, opcao2Int, p);
+					opcao = JOptionPane.showInputDialog(
+							"Escolha a porção a ser alterada:\n" + Program.mostrePorcoesPrato(opcao1Int, p, c));
+					if (!opcao.matches("^[1-3]{1}$")) {
 						JOptionPane.showMessageDialog(null,
-								"Nova composição do prato:\n" + Program.mostrePorcoesPrato(opcao1Int, p, c));
+								"Opção inválida. Tente novamente informando uma opção entre 1 e 3.");
 					}
-				} while (opcao2Int < 1 || opcao2Int > 3);
+
+				} while (!opcao.matches("^[1-3]{1}$"));
+
+				opcao2Int = Integer.parseInt(opcao);
+
+				Program.alterePrato(opcao1Int, opcao2Int, p);
+				JOptionPane.showMessageDialog(null,
+						"Nova composição do prato:\n" + Program.mostrePorcoesPrato(opcao1Int, p, c));
 
 				produto = multipliqueMatrizes(p, c);
 				break;
@@ -184,7 +166,6 @@ public class Program {
 
 	public static String mostreMatrizP(int[][] p, double[][] c, double[][] produto) {
 		StringBuilder sb = new StringBuilder();
-		int cont = 0;
 		for (int i = 0; i < p.length; i++) {
 			sb.append((i + 1) + " - Prato " + (i + 1) + ": ");
 			for (int j = 0; j < p[i].length; j++) {
@@ -197,14 +178,9 @@ public class Program {
 					break;
 				case 2:
 					sb.append(p[i][j] + "x Salada(R$" + String.format("%.2f", c[j][0]) + ") = R$");
+					sb.append(String.format("%.2f", produto[i][0]) + ".\n");
 					break;
 				}
-				if (j == 2) {
-
-					sb.append(String.format("%.2f", produto[cont][0]) + ".\n");
-					cont++;
-				}
-
 			}
 		}
 		return sb.toString();
@@ -230,7 +206,6 @@ public class Program {
 			}
 
 		}
-
 		return sb.toString();
 	}
 
@@ -238,9 +213,7 @@ public class Program {
 		int linha = opcaoPrato - 1;
 		int coluna = opcaoPorcao - 1;
 		String nome = null;
-		int qtd;
-		String str;
-		String entrada;
+		String opcao;
 
 		switch (coluna) {
 		case 0:
@@ -253,31 +226,20 @@ public class Program {
 			nome = "salada";
 			break;
 		}
-		str = "Porção de " + nome + " - Quantidade atual: " + p[linha][coluna] + "\n";
-
 		do {
-			do {
-				entrada = JOptionPane.showInputDialog(str + "Informe a nova quantidade de " + nome + ":");
-				if (!valideAlteracoes(entrada)) {
-					JOptionPane.showMessageDialog(null, "A quantidade é inválida. Tente novamente.");
-				}
-			} while (!valideAlteracoes(entrada));
-			qtd = Integer.parseInt(entrada);
-			if (qtd < 0) {
-				JOptionPane.showMessageDialog(null, "A quantidade não pode ser menor que 0. Tente novamente.");
-			} else {
-				p[linha][coluna] = qtd;
+			opcao = JOptionPane.showInputDialog("Porção de " + nome + " - Quantidade atual: " + p[linha][coluna] + "\n"
+					+ "Informe a nova quantidade de " + nome + ":");
+			if (!opcao.matches("\\d+")) {
+				JOptionPane.showMessageDialog(null, "A quantidade é inválida. Tente novamente.");
 			}
-		} while (qtd < 0);
+		} while (!opcao.matches("\\d+"));
+		p[linha][coluna] = Integer.parseInt(opcao);
 	}
 
 	public static void alterePorcao(int opcaoPorcao, double[][] c) {
 		int linha = opcaoPorcao - 1;
 		String nome = null;
-		double preco = 0;
-		String str;
-		String entrada;
-
+		String opcao;
 		switch (linha) {
 		case 0:
 			nome = "arroz";
@@ -290,64 +252,25 @@ public class Program {
 			break;
 		}
 
-		str = "Porção de " + nome + " - Preço atual: R$" + String.format("%.2f", c[linha][0]) + "\n";
 		do {
-			do {
-				entrada = JOptionPane.showInputDialog(str + "Informe o novo preço da porção de " + nome + ":");
-				if (!validePreco(entrada)) {
-					JOptionPane.showMessageDialog(null,
-							"O preço informado é inválido ou está separado por vírgula (use ponto caso o preço tenha centavos). Tente novamente.");
-				}
-			} while (!validePreco(entrada));
-			preco = Double.parseDouble(entrada);
-			if (preco <= 0) {
-				JOptionPane.showMessageDialog(null, "O preço informado é inválido. Entre com um preço superior a 0.");
-			} else {
-				c[linha][0] = preco;
+			opcao = JOptionPane.showInputDialog("Porção de " + nome + " - Preço atual: R$"
+					+ String.format("%.2f", c[linha][0]) + "\n" + "Informe o novo preço da porção de " + nome + ":");
+			if (!validePreco(opcao)) {
+				JOptionPane.showMessageDialog(null,
+						"O preço informado é inválido. Tente novamente informando um preço composto apenas por números e com no máximo 2 dígitos após a vírgula/ponto.");
 			}
-		} while (preco <= 0);
+		} while (!validePreco(opcao));
 
-	}
-
-	public static boolean valideMenu(String str) {
-		if (str.equals("")) {
-			return false;
-		} else if (str.length() > 1) {
-			return false;
-		} else if (!Character.isDigit(str.charAt(0))) {
-			return false;
-		} else {
-			return true;
-		}
-	}
-
-	public static boolean valideAlteracoes(String str) {
-		if (str.equals("")) {
-			return false;
-		} else {
-			for (int i = 0; i < str.length(); i++) {
-				if (!Character.isDigit(str.charAt(i))) {
-					return false;
-				}
-			}
-		}
-		
-		return true;
+		c[linha][0] = Double.parseDouble(opcao.replace(",", "."));
 	}
 
 	public static boolean validePreco(String str) {
-		if (str.equals("")) {
+		if (!str.matches("^(\\d+)(\\.|,)?(\\d){0,2}$")) {
 			return false;
-		} else {
-			for (int i = 0; i < str.length(); i++) {
-				if (!Character.isDigit(str.charAt(i))) {
-					if (str.charAt(i) != '.') {
-						return false;
-					}
-				}
-			}
+		} else if (Double.parseDouble(str.replace(",", ".")) <= 0) {
+			return false;
 		}
-		
+
 		return true;
 
 	}
@@ -355,64 +278,51 @@ public class Program {
 	public static String facaPedido(int[][] p, double[][] c, double[][] produto) {
 		StringBuilder sb = new StringBuilder();
 		double total = 0;
-		String entrada;
-		int opcao = 0;
+		String opcao;
+		int index;
 		boolean finalizarPedido = false;
 
 		sb.append("                                                       Comanda\n\n");
 
-		do {
+		while (!finalizarPedido) {
 			do {
-				do {
-					entrada = JOptionPane.showInputDialog(
-							"Informe qual prato deseja adicionar ao pedido:\n" + mostreMatrizP(p, c, produto));
-					if (!valideMenu(entrada)) {
-						JOptionPane.showMessageDialog(null, "Opção inválida. Tente novamente.");
-					} else {
-						opcao = Integer.parseInt(entrada);
-					}
-				} while (!valideMenu(entrada));
-				if (opcao < 1 || opcao > 3) {
+				opcao = JOptionPane.showInputDialog(
+						"Informe qual prato deseja adicionar ao pedido:\n" + mostreMatrizP(p, c, produto));
+				if (!opcao.matches("[1-3]{1}")) {
 					JOptionPane.showMessageDialog(null, "Opção inválida. Tente novamente.");
 				}
-			} while (opcao < 1 || opcao > 3);
-			sb.append("Prato " + opcao + ": ");
+			} while (!opcao.matches("[1-3]{1}"));
+			index = Integer.parseInt(opcao) - 1;
+
+			sb.append("Prato " + index + ": ");
 			for (int i = 0; i < p.length; i++) {
 				switch (i) {
 				case 0:
-					sb.append(p[opcao - 1][i] + "x Arroz(R$" + String.format("%.2f", c[i][0]) + ") | ");
+					sb.append(p[index][i] + "x Arroz(R$" + String.format("%.2f", c[i][0]) + ") | ");
 					break;
 				case 1:
-					sb.append(p[opcao - 1][i] + "x Carne(R$" + String.format("%.2f", c[i][0]) + ") | ");
+					sb.append(p[index][i] + "x Carne(R$" + String.format("%.2f", c[i][0]) + ") | ");
 					break;
 				case 2:
-					sb.append(p[opcao - 1][i] + "x Salada(R$" + String.format("%.2f", c[i][0]) + ") = R$"
-							+ String.format("%.2f", produto[opcao - 1][0]) + "\n");
-					total += produto[opcao - 1][0];
+					sb.append(p[index][i] + "x Salada(R$" + String.format("%.2f", c[i][0]) + ") = R$"
+							+ String.format("%.2f", produto[index][0]) + "\n");
+					total += produto[index][0];
 					break;
 				}
 			}
 			do {
-				do {
-					entrada = JOptionPane.showInputDialog("O que deseja fazer?\n"
-							+ "1 - Adicionar mais itens ao pedido.\n" + "2 - Finalizar o pedido.");
-					if (!valideMenu(entrada)) {
-						JOptionPane.showMessageDialog(null, "Opção inválida.");
-					} else {
-						opcao = Integer.parseInt(entrada);
-						if (opcao < 1 || opcao > 2) {
-							JOptionPane.showMessageDialog(null, "Opção inválida.");
-						}
-					}
-				} while (!valideMenu(entrada));
-			} while (opcao < 1 || opcao > 2);
-			if (opcao == 2) {
+				opcao = JOptionPane.showInputDialog(
+						"O que deseja fazer?\n" + "1 - Adicionar mais itens ao pedido.\n" + "2 - Finalizar o pedido.");
+				if (!opcao.matches("1|2{1}")) {
+					JOptionPane.showMessageDialog(null, "Opção inválida. Tente novamente.");
+				}
+			} while (!opcao.matches("^1|2{1}$"));
+
+			if (Integer.parseInt(opcao) == 2) {
 				sb.append("\n\n\nTotal: R$" + String.format("%.2f", total));
 				finalizarPedido = true;
 			}
-
-		} while (!finalizarPedido);
-
+		}
 		return sb.toString();
 	}
 }
